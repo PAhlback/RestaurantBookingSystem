@@ -1,4 +1,11 @@
 
+using Microsoft.EntityFrameworkCore;
+using RestaurantBookingSystem.Data;
+using RestaurantBookingSystem.Data.Repos;
+using RestaurantBookingSystem.Data.Repos.IRepos;
+using RestaurantBookingSystem.Services;
+using RestaurantBookingSystem.Services.IServices;
+
 namespace RestaurantBookingSystem
 {
     public class Program
@@ -6,8 +13,17 @@ namespace RestaurantBookingSystem
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            DotNetEnv.Env.Load();
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
             // Add services to the container.
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+
+            // REPOS
+            builder.Services.AddScoped<IMenuItemsRepo, MenuItemsRepo>();
+
+            // SERVICES
+            builder.Services.AddScoped<IMenuItemsService, MenuItemsService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
