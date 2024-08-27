@@ -1,6 +1,8 @@
 ﻿using RestaurantBookingSystem.Data.Repos.IRepos;
 using RestaurantBookingSystem.Models;
+using RestaurantBookingSystem.Models.DTOs;
 using RestaurantBookingSystem.Services.IServices;
+using System.Reflection.Metadata.Ecma335;
 
 namespace RestaurantBookingSystem.Services
 {
@@ -11,6 +13,29 @@ namespace RestaurantBookingSystem.Services
         public MenuItemsService(IMenuItemsRepo repo)
         {
             _menuItemsRepo = repo;
+        }
+
+        public async Task AddMenuItem(MenuItemDTO dto)
+        {
+            try
+            {
+                if (dto == null) throw new ArgumentNullException(nameof(dto));
+
+                MenuItem newMenuItem = new MenuItem
+                {
+                    Name = dto.Name,
+                    Description = dto.Description,
+                    Price = dto.Price,
+                    IsAvailable = dto.IsAvailable
+                };
+
+                await _menuItemsRepo.AddMenuItem(newMenuItem);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
         }
 
         public async Task<List<MenuItem>> GetAll()
@@ -30,12 +55,18 @@ namespace RestaurantBookingSystem.Services
         {
             try
             {
-                return await _menuItemsRepo.GetById(id);
+                MenuItem? menuItem = await _menuItemsRepo.GetById(id);
+
+                if (menuItem == null)
+                {
+                    throw new Exception($"No menu item with id {id} found.");
+                }
+
+                return menuItem;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-
             }
         }
     }

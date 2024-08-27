@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantBookingSystem.Models;
+using RestaurantBookingSystem.Models.DTOs;
 using RestaurantBookingSystem.Services.IServices;
 
 namespace RestaurantBookingSystem.Controllers
@@ -10,7 +11,7 @@ namespace RestaurantBookingSystem.Controllers
     // Get single menu item.
     // Update menu item.
     // Create menu item.
-    // Delete menu item.
+    // Delete menu item. Return "No content"?
 
     [Route("api/[controller]")]
     [ApiController]
@@ -23,7 +24,7 @@ namespace RestaurantBookingSystem.Controllers
             _menuItemsService = service;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet("Menu")]
         public async Task<IActionResult> GetAllMenuItems()
         {
             try
@@ -38,7 +39,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetItem/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -46,6 +47,21 @@ namespace RestaurantBookingSystem.Controllers
                 MenuItem? menuItem = await _menuItemsService.GetById(id);
 
                 return Ok(menuItem);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("AddItem")]
+        public async Task<IActionResult> AddMenuItem(MenuItemDTO dto)
+        {
+            try
+            {
+                await _menuItemsService.AddMenuItem(dto);
+
+                return Created();
             }
             catch (Exception ex)
             {

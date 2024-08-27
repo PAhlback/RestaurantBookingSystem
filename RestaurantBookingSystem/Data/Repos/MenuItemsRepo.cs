@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestaurantBookingSystem.Data.Repos.IRepos;
 using RestaurantBookingSystem.Models;
+using RestaurantBookingSystem.Models.DTOs;
 
 namespace RestaurantBookingSystem.Data.Repos
 {
@@ -11,6 +12,19 @@ namespace RestaurantBookingSystem.Data.Repos
         public MenuItemsRepo(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public async Task AddMenuItem(MenuItem newMenuItem)
+        {
+            try
+            {
+                await _context.MenuItems.AddAsync(newMenuItem);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<List<MenuItem>> GetAllMenuItems()
