@@ -6,11 +6,13 @@ using RestaurantBookingSystem.Services.IServices;
 
 namespace RestaurantBookingSystem.Controllers
 {
-    // Needs CRUD operations.
+    // GO THROUGH THESE FOR ERROR HANDLING
     // Get all menu items.
     // Get single menu item.
-    // Update menu item.
     // Create menu item.
+
+    // DONE
+    // Update menu item.
     // Delete menu item. Return "No content"?
 
     [Route("api/[controller]")]
@@ -24,7 +26,7 @@ namespace RestaurantBookingSystem.Controllers
             _menuItemsService = service;
         }
 
-        [HttpGet("Menu")]
+        [HttpGet()]
         public async Task<IActionResult> GetAllMenuItems()
         {
             try
@@ -39,7 +41,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
-        [HttpGet("GetItem/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -55,13 +57,56 @@ namespace RestaurantBookingSystem.Controllers
         }
 
         [HttpPost("AddItem")]
-        public async Task<IActionResult> AddMenuItem(MenuItemDTO dto)
+        public async Task<IActionResult> AddMenuItem([FromBody] MenuItemDTO dto)
         {
             try
             {
                 await _menuItemsService.AddMenuItem(dto);
 
                 return Created();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/update")]
+        public async Task<IActionResult> UpdateMenuItem(int id, [FromBody]MenuItemDTO dto)
+        {
+            try
+            {
+                await _menuItemsService.UpdateMenuItem(id, dto);
+
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                // Add logging for the exception?
+                return NotFound($"Failed to locate menu item with id {id}.");
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest("All fields are required.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}/delete")]
+        public async Task<IActionResult> DeleteMenuItem(int id)
+        {
+            try
+            {
+                await _menuItemsService.DeleteItem(id);
+
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {

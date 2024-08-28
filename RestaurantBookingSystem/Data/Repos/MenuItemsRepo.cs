@@ -18,10 +18,23 @@ namespace RestaurantBookingSystem.Data.Repos
         {
             try
             {
-                await _context.MenuItems.AddAsync(newMenuItem);
+                _context.MenuItems.Add(newMenuItem);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task DeleteMenuItem(MenuItem menuItem)
+        {
+            try
+            {
+                _context.Remove(menuItem);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) 
             {
                 throw new Exception(ex.Message);
             }
@@ -48,6 +61,19 @@ namespace RestaurantBookingSystem.Data.Repos
                 MenuItem? menuItem = await _context.MenuItems.SingleOrDefaultAsync(i => i.Id == id);
 
                 return menuItem;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task UpdateMenuItem(MenuItem menuItem)
+        {
+            try
+            {
+                _context.MenuItems.Update(menuItem);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {

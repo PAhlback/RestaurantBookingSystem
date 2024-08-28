@@ -38,6 +38,20 @@ namespace RestaurantBookingSystem.Services
             
         }
 
+        public async Task DeleteItem(int id)
+        {
+            try
+            {
+                MenuItem? menuItem = await _menuItemsRepo.GetById(id) ?? throw new KeyNotFoundException();
+
+                await _menuItemsRepo.DeleteMenuItem(menuItem);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<List<MenuItem>> GetAll()
         {
             try
@@ -65,6 +79,27 @@ namespace RestaurantBookingSystem.Services
                 return menuItem;
             }
             catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task UpdateMenuItem(int id, MenuItemDTO menuItemDTO)
+        {
+            try
+            {
+                ArgumentNullException.ThrowIfNull(menuItemDTO);
+
+                MenuItem existingMenuItem = await _menuItemsRepo.GetById(id) as MenuItem ?? throw new KeyNotFoundException();
+
+                if (menuItemDTO.Name != existingMenuItem.Name) existingMenuItem.Name = menuItemDTO.Name;
+                if (menuItemDTO.Description != existingMenuItem.Description) existingMenuItem.Description = menuItemDTO.Description;
+                if (menuItemDTO.Price != existingMenuItem.Price) existingMenuItem.Price = menuItemDTO.Price;
+                if (menuItemDTO.IsAvailable != existingMenuItem.IsAvailable) existingMenuItem.IsAvailable = menuItemDTO.IsAvailable;
+
+                await _menuItemsRepo.UpdateMenuItem(existingMenuItem);
+            }
+            catch (Exception ex) 
             {
                 throw new Exception(ex.Message);
             }
