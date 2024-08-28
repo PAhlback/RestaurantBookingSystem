@@ -73,7 +73,7 @@ namespace RestaurantBookingSystem.Services
 
                 if (menuItem == null)
                 {
-                    throw new Exception($"No menu item with id {id} found.");
+                    throw new KeyNotFoundException($"No menu item with id {id} found.");
                 }
 
                 return menuItem;

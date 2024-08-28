@@ -18,7 +18,7 @@ namespace RestaurantBookingSystem.Data.Repos
         {
             try
             {
-                _context.MenuItems.Add(newMenuItem);
+                await _context.MenuItems.AddAsync(newMenuItem);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

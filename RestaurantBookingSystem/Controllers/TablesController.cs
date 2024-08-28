@@ -1,39 +1,34 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RestaurantBookingSystem.Models;
 using RestaurantBookingSystem.Models.DTOs;
+using RestaurantBookingSystem.Models.ViewModels;
 using RestaurantBookingSystem.Services.IServices;
 
 namespace RestaurantBookingSystem.Controllers
 {
-    // GO THROUGH THESE FOR ERROR HANDLING
-    // Get all menu items.
-    // Get single menu item.
-    // Create menu item.
-
-    // DONE
-    // Update menu item.
-    // Delete menu item. Return "No content"?
-
     [Route("api/[controller]")]
     [ApiController]
-    public class MenuItemsController : ControllerBase
+    public class TablesController : ControllerBase
     {
-        readonly IMenuItemsService _menuItemsService;
+        readonly ITablesService _tablesService;
 
-        public MenuItemsController(IMenuItemsService service)
+        public TablesController(ITablesService tablesService)
         {
-            _menuItemsService = service;
+            _tablesService = tablesService;
         }
 
-        [HttpGet()]
-        public async Task<IActionResult> GetAllMenuItems()
+        [HttpGet]
+        public async Task<IActionResult> GetAllTables()
         {
             try
             {
-                List<MenuItem> menuItems = await _menuItemsService.GetAll();
+                List<TablesAllViewModel> tables = await _tablesService.GetAllTables();
 
-                return Ok(menuItems);
+                return Ok(tables);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound("No tables found. " + ex.Message);
             }
             catch (Exception ex)
             {
@@ -42,13 +37,51 @@ namespace RestaurantBookingSystem.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetMenuItemById(int id)
+        public async Task<IActionResult> GetTableById(int id)
         {
             try
             {
-                MenuItem? menuItem = await _menuItemsService.GetById(id);
+                TableViewModel result = await _tablesService.GetTableById(id);
 
-                return Ok(menuItem);
+                return Ok(result);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> AddTable([FromBody] TableDTO dto)
+        {
+            try
+            {
+                await _tablesService.AddTable(dto);
+
+                return Created();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/update")]
+        public async Task<IActionResult> UpdateTable(int id, [FromBody]TableDTO dto)
+        {
+            try
+            {
+                await _tablesService.UpdateTable(id, dto);
+
+                return NoContent();
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (KeyNotFoundException ex)
             {
@@ -60,51 +93,12 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
-        [HttpPost("AddItem")]
-        public async Task<IActionResult> AddMenuItem([FromBody] MenuItemDTO dto)
-        {
-            try
-            {
-                await _menuItemsService.AddMenuItem(dto);
-
-                return Created();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPut("{id}/update")]
-        public async Task<IActionResult> UpdateMenuItem(int id, [FromBody]MenuItemDTO dto)
-        {
-            try
-            {
-                await _menuItemsService.UpdateMenuItem(id, dto);
-
-                return NoContent();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                // Add logging for the exception?
-                return NotFound($"Failed to locate menu item with id {id}.");
-            }
-            catch (ArgumentNullException ex)
-            {
-                return BadRequest("All fields are required.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpDelete("{id}/delete")]
-        public async Task<IActionResult> DeleteMenuItem(int id)
+        public async Task<IActionResult> DeleteTable(int id)
         {
             try
             {
-                await _menuItemsService.DeleteItem(id);
+                await _tablesService.DeleteTable(id);
 
                 return NoContent();
             }
