@@ -26,6 +26,11 @@ namespace RestaurantBookingSystem.Services
                 throw new Exception($"Customer with email {dto.Email} already exists");
             };
 
+            if (string.IsNullOrWhiteSpace(dto.Phone))
+            {
+                dto.Phone = null;
+            }
+
             Customer newCustomer = new()
             {
                 Name = dto.Name,
