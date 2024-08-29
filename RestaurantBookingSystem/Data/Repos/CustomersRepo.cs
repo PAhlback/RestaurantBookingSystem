@@ -36,6 +36,11 @@ namespace RestaurantBookingSystem.Data.Repos
             return await _context.Customers.ToListAsync();
         }
 
+        public Task<Customer> GetCustomerByEmail(string email)
+        {
+            return _context.Customers.SingleOrDefaultAsync(c => c.Email == email);
+        }
+
         public async Task<Customer> GetCustomerById(int id)
         {
             return await _context.Customers.SingleOrDefaultAsync(c => c.Id == id);

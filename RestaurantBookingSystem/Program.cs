@@ -23,11 +23,13 @@ namespace RestaurantBookingSystem
             builder.Services.AddScoped<IMenuItemsRepo, MenuItemsRepo>();
             builder.Services.AddScoped<ITablesRepo, TablesRepo>();
             builder.Services.AddScoped<ICustomersRepo, CustomersRepo>();
+            builder.Services.AddScoped<IReservationsRepo, ReservationsRepo>();
 
             // SERVICES
             builder.Services.AddScoped<IMenuItemsService, MenuItemsService>();
             builder.Services.AddScoped<ITablesService, TablesService>();
             builder.Services.AddScoped<ICustomersService, CustomersService>();
+            builder.Services.AddScoped<IReservationsService, ReservationsService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

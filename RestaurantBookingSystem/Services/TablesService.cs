@@ -87,6 +87,11 @@ namespace RestaurantBookingSystem.Services
             return result;
         }
 
+        public async Task<Table> ReserveTable(int numberOfGuests, DateTime dateAndTime)
+        {
+            
+        }
+
         public async Task UpdateTable(int id, TableDTO dto)
         {
             ArgumentNullException.ThrowIfNull(nameof(dto));

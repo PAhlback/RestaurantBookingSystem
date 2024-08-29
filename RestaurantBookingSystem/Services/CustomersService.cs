@@ -26,6 +26,7 @@ namespace RestaurantBookingSystem.Services
                 throw new Exception($"Customer with email {dto.Email} already exists");
             };
 
+            // Ensures phone property is always null in database, for consistency. Prevents some being null and some being whitespace.
             if (string.IsNullOrWhiteSpace(dto.Phone))
             {
                 dto.Phone = null;
@@ -39,6 +40,11 @@ namespace RestaurantBookingSystem.Services
             };
 
             await _customersRepo.AddCustomer(newCustomer);
+        }
+
+        public async Task<bool> CustomerEmailExists(string email)
+        {
+            return await _customersRepo.CustomerEmailExists(email);
         }
 
         public async Task DeleteCustomer(int id)
@@ -63,6 +69,13 @@ namespace RestaurantBookingSystem.Services
                 .ToList();
 
             return result;
+        }
+
+        public async Task<Customer> GetCustomerByEmail(string email)
+        {
+            Customer customer = await _customersRepo.GetCustomerByEmail(email) ?? throw new KeyNotFoundException(email);
+
+            return customer;
         }
 
         public async Task<CustomerWithReservationsViewModel> GetCustomerById(int id)

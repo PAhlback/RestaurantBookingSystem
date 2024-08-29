@@ -1,4 +1,5 @@
-﻿using RestaurantBookingSystem.Models.DTOs;
+﻿using RestaurantBookingSystem.Models;
+using RestaurantBookingSystem.Models.DTOs;
 using RestaurantBookingSystem.Models.ViewModels;
 
 namespace RestaurantBookingSystem.Services.IServices
@@ -9,6 +10,7 @@ namespace RestaurantBookingSystem.Services.IServices
         Task DeleteTable(int id);
         Task<List<TablesAllViewModel>> GetAllTables();
         Task<TableViewModel> GetTableById(int id);
+        Task<Table> ReserveTable(int numberOfGuests, DateTime dateAndTime);
         Task UpdateTable(int id, TableDTO dto);
     }
 }
