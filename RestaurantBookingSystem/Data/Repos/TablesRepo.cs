@@ -30,7 +30,7 @@ namespace RestaurantBookingSystem.Data.Repos
 
         public async Task<List<Table>> GetAllTables()
         {
-            return await _context.Tables.ToListAsync();
+            return await _context.Tables.Include(t => t.Reservations).ToListAsync();
         }
         public async Task<Table> GetTableById(int id)
         {

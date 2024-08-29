@@ -89,7 +89,20 @@ namespace RestaurantBookingSystem.Services
 
         public async Task<Table> ReserveTable(int numberOfGuests, DateTime dateAndTime)
         {
-            
+            List<Table> allTables = await _tableRepo.GetAllTables();
+
+            // Contains a check to see if the reservation is booked at the requested time + 2h.
+            List<Table> availableTables = allTables
+                .Where(t => t.NumberOfSeats >= numberOfGuests 
+                    && (t.Reservations == null || !t.Reservations.Any(r => r.DateAndTime == dateAndTime && (double)r.DateAndTime.Hour <= (double)dateAndTime.Hour + 1.99)))
+                .OrderBy(t => t.NumberOfSeats)
+                .ToList();
+
+            if (availableTables.Count <= 0) throw new Exception("No tables available for reservation");
+
+            return availableTables.First();
+
+            // Returns the first table in the list, since that table should be closest in available seats to that of the number of guests.
         }
 
         public async Task UpdateTable(int id, TableDTO dto)
