@@ -10,5 +10,6 @@ namespace RestaurantBookingSystem.Data.Repos.IRepos
         Task AddTable(Table newTable);
         Task UpdateTable(Table table);
         Task DeleteTable(Table table);
+        Task<List<Table>> GetTablesByDateTime(DateTime dateAndTime);
     }
 }

@@ -6,7 +6,7 @@ namespace RestaurantBookingSystem.Data.Repos.IRepos
 {
     public interface ICustomersRepo
     {
-        Task AddCustomer(Customer newCustomer);
+        Task CreateCustomer(Customer newCustomer);
         Task<bool> CustomerEmailExists(string email);
         Task DeleteCustomer(Customer customer);
         Task<List<Customer>> GetAllCustomers();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RestaurantBookingSystem.Data.Repos.IRepos;
 using RestaurantBookingSystem.Models;
 
@@ -19,6 +20,12 @@ namespace RestaurantBookingSystem.Data.Repos
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteTable(Reservation reservation)
+        {
+            _context.Reservations.Remove(reservation);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Reservation>> GetAllReservations()
         {
             return await _context.Reservations
@@ -33,6 +40,12 @@ namespace RestaurantBookingSystem.Data.Repos
                 .Include(r => r.Table)
                 .Include(r => r.Customer)
                 .SingleOrDefaultAsync(r => r.Id == id);
+        }
+
+        public async Task UpdateReservation(Reservation reservation)
+        {
+            _context.Reservations.Update(reservation);
+            await _context.SaveChangesAsync();
         }
     }
 }

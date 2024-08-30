@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RestaurantBookingSystem.Models;
 using RestaurantBookingSystem.Models.DTOs;
 using RestaurantBookingSystem.Models.ViewModels;
+using RestaurantBookingSystem.Services;
 using RestaurantBookingSystem.Services.IServices;
 
 namespace RestaurantBookingSystem.Controllers
@@ -64,9 +65,45 @@ namespace RestaurantBookingSystem.Controllers
         }
 
         [HttpPut("{id}/update")]
-        public async Task<IActionResult> UpdateReservation([FromBody])
+        public async Task<IActionResult> UpdateReservation(int id, [FromBody] ReservationUpdateDTO dto)
         {
+            try
+            {
+                await _reservationsService.UpdateReservation(id, dto);
 
+                return NoContent();
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}/delete")]
+        public async Task<IActionResult> DeleteReservation(int id)
+        {
+            try
+            {
+                await _reservationsService.DeleteReservation(id);
+
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

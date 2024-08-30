@@ -1,4 +1,5 @@
-﻿using RestaurantBookingSystem.Data.Repos.IRepos;
+﻿using RestaurantBookingSystem.Data.Repos;
+using RestaurantBookingSystem.Data.Repos.IRepos;
 using RestaurantBookingSystem.Models;
 using RestaurantBookingSystem.Models.DTOs;
 using RestaurantBookingSystem.Models.ViewModels;
@@ -11,12 +12,17 @@ namespace RestaurantBookingSystem.Services
         readonly IReservationsRepo _reservationsRepo;
         readonly ICustomersService _customersService;
         readonly ITablesService _tablesService;
+        readonly ITablesRepo _tablesRepo;
 
-        public ReservationsService(IReservationsRepo repo, ICustomersService customersService, ITablesService ITablesService)
+        public ReservationsService(IReservationsRepo repo, 
+            ICustomersService customersService, 
+            ITablesService tablesService,
+            ITablesRepo tablesRepo)
         {
             _reservationsRepo = repo;
             _customersService = customersService;
-            _tablesService = ITablesService;
+            _tablesService = tablesService;
+            _tablesRepo = tablesRepo;
         }
 
         public async Task CreateReservation(ReservationDTO dto)
@@ -34,7 +40,7 @@ namespace RestaurantBookingSystem.Services
                     Phone = dto.CustomerPhone
                 };
 
-                await _customersService.AddCustomer(newCustomer);
+                await _customersService.CreateCustomer(newCustomer);
             }
 
             Customer customer = await _customersService.GetCustomerByEmail(dto.CustomerEmail);
@@ -57,6 +63,13 @@ namespace RestaurantBookingSystem.Services
             };
 
             await _reservationsRepo.CreateReservation(newReservation);
+        }
+
+        public async Task DeleteReservation(int id)
+        {
+            Reservation reservation = await _reservationsRepo.GetById(id) ?? throw new KeyNotFoundException();
+
+            await _reservationsRepo.DeleteTable(reservation);
         }
 
         public async Task<List<ReservationAllViewModel>> GetAllReservations()
@@ -113,6 +126,57 @@ namespace RestaurantBookingSystem.Services
             };
 
             return result;
+        }
+
+        // Can update the reservation with new information for the following:
+        // Number of guests - will not automatically change table, that has to be done manually. See below.
+        // Date and time.
+        // Customer - change the customer on the reservation.
+        // Table - recieves both table id and table number, since for a reservation to exist it has to have a table.
+        // Entering a new table number will change the reservations to that table without checking for existing reservations.
+        public async Task UpdateReservation(int id, ReservationUpdateDTO dto)
+        {
+            ArgumentNullException.ThrowIfNull(nameof(dto));
+
+            Reservation reservation = await _reservationsRepo.GetById(id) ?? throw new KeyNotFoundException(nameof(dto));
+
+            if (reservation.NumberOfGuests != dto.NumberOfGuests) reservation.NumberOfGuests = dto.NumberOfGuests;
+            if (reservation.DateAndTime != dto.DateAndTime) reservation.DateAndTime = dto.DateAndTime;
+
+            // If the dto references a different customer than that already in the reservation, the old
+            // customer is swapped for the new customer. If the new customer doesn't exist (email is not in db)
+            // a new customer is created and then added to the reservation.
+            if (reservation.Customer.Email != dto.CustomerEmail)
+            {
+                Customer? customer = await _customersService.GetCustomerByEmail(dto.CustomerEmail);
+
+                if (customer == null)
+                {
+                    CustomerDTO customerDTO = new CustomerDTO
+                    {
+                        Name = dto.CustomerName,
+                        Email = dto.CustomerEmail,
+                        Phone = dto.CustomerPhone
+                    };
+
+                    await _customersService.CreateCustomer(customerDTO);
+                    customer = await _customersService.GetCustomerByEmail(dto.CustomerEmail);
+                }
+                reservation.FK_CustomerId = customer.Id;
+                reservation.Customer = customer;
+            }
+
+            // Does the same as the block above, but without creating a new table if the table doesn't exist.
+            // If the table doesn't exist an error is thrown.
+            if (reservation.Table.Id != dto.TableId)
+            {
+                Table table = await _tablesRepo.GetTableById(dto.TableId);
+
+                reservation.FK_TableId = table.Id;
+                reservation.Table = table;
+            }
+            
+            await _reservationsRepo.UpdateReservation(reservation);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace RestaurantBookingSystem.Data.Repos
             _context = context;
         }
 
-        public async Task AddCustomer(Customer newCustomer)
+        public async Task CreateCustomer(Customer newCustomer)
         {
             await _context.Customers.AddAsync(newCustomer);
             await _context.SaveChangesAsync();

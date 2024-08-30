@@ -57,11 +57,11 @@ namespace RestaurantBookingSystem.Controllers
         }
 
         [HttpPost()]
-        public async Task<IActionResult> AddCustomer([FromBody]CustomerDTO dto)
+        public async Task<IActionResult> CreateCustomer([FromBody]CustomerDTO dto)
         {
             try
             {
-                await _customerService.AddCustomer(dto);
+                await _customerService.CreateCustomer(dto);
 
                 return Created();
             }

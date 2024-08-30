@@ -16,7 +16,7 @@ namespace RestaurantBookingSystem.Services
             _customersRepo = repo;
         }
 
-        public async Task AddCustomer(CustomerDTO dto)
+        public async Task CreateCustomer(CustomerDTO dto)
         {
             ArgumentNullException.ThrowIfNull(nameof(dto));
 
@@ -39,7 +39,7 @@ namespace RestaurantBookingSystem.Services
                 Phone = dto.Phone
             };
 
-            await _customersRepo.AddCustomer(newCustomer);
+            await _customersRepo.CreateCustomer(newCustomer);
         }
 
         public async Task<bool> CustomerEmailExists(string email)

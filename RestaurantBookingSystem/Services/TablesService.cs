@@ -56,6 +56,27 @@ namespace RestaurantBookingSystem.Services
             return result;
         }
 
+        public async Task<List<TablesAllViewModel>> GetAvailableTablesBasedOnDateTime(DateTime dateAndTime)
+        {
+            ArgumentNullException.ThrowIfNull(nameof(dateAndTime));
+
+            // Maybe unnecessary
+            if (dateAndTime.Date < DateTime.Now.Date) throw new Exception("Unable to make reservation on past date.");
+
+            List<Table> availableTables = await _tableRepo.GetTablesByDateTime(dateAndTime);
+
+            List<TablesAllViewModel> result = availableTables
+                .Select(t => new TablesAllViewModel()
+                {
+                    Id= t.Id,
+                    NumberOfSeats= t.NumberOfSeats,
+                    TableNumber = t.TableNumber
+                })
+                .ToList();
+
+            return result;
+        }
+
         public async Task<TableViewModel> GetTableById(int id)
         {
             Table table = await _tableRepo.GetTableById(id) ?? throw new KeyNotFoundException();

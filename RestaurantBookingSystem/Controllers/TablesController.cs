@@ -37,7 +37,7 @@ namespace RestaurantBookingSystem.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTableById(int id)
+        public async Task<IActionResult> GetTableById([FromRoute] int id)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace RestaurantBookingSystem.Controllers
         }
 
         [HttpPut("{id}/update")]
-        public async Task<IActionResult> UpdateTable(int id, [FromBody]TableDTO dto)
+        public async Task<IActionResult> UpdateTable([FromRoute] int id, [FromBody] TableDTO dto)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace RestaurantBookingSystem.Controllers
         }
 
         [HttpDelete("{id}/delete")]
-        public async Task<IActionResult> DeleteTable(int id)
+        public async Task<IActionResult> DeleteTable([FromRoute] int id)
         {
             try
             {
@@ -105,6 +105,21 @@ namespace RestaurantBookingSystem.Controllers
             catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("check-for-available-tables/{dateAndTime}")]
+        public async Task<IActionResult> CheckAvailableTablesBasedOnDateTime([FromRoute] DateTime dateAndTime)
+        {
+            try
+            {
+                List<TablesAllViewModel> availableTables = await _tablesService.GetAvailableTablesBasedOnDateTime(dateAndTime);
+
+                return Ok(availableTables);
             }
             catch (Exception ex)
             {

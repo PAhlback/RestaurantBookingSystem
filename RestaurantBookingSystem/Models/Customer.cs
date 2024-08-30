@@ -13,6 +13,7 @@ namespace RestaurantBookingSystem.Models
 
         [Required]
         public string Email { get; set; }
+        public string? NormalizedEmail { get; set; }
         public string? Phone { get; set; }
         
         public virtual ICollection<Reservation> Reservations { get; set; }
