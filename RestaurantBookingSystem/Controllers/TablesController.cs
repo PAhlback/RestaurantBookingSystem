@@ -47,7 +47,7 @@ namespace RestaurantBookingSystem.Controllers
             }
             catch (KeyNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
