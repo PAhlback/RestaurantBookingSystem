@@ -2,6 +2,9 @@
 In this school assignment the task was to create a RESTful API with CRUD operations for a table reservation system for a restaurant. 
 The program handles the tables, customers, menu, and reservations for the restaurant.
 
+## ER Diagram
+[ER Diagram](https://github.com/PAhlback/RestaurantBookingSystem/blob/master/RestaurantBookingSystemERD.png)
+
 ---
 
 ## Endpoint documentation
