@@ -31,7 +31,7 @@ namespace RestaurantBookingSystem.Services
         public async Task CreateReservation(ReservationDTO dto)
         {
             ArgumentNullException.ThrowIfNull(dto);
-            if (dto.NumberOfGuests > 6) throw new ArgumentException("Please contact the restaurant directly to make a reservation for more than 6 people.");
+            if (dto.NumberOfGuests > 6) throw new InvalidOperationException("Please contact the restaurant directly to make a reservation for more than 6 people.");
 
             // CUSTOMER
             if (!await _customersRepo.CustomerEmailExists(dto.CustomerEmail.ToLower()))

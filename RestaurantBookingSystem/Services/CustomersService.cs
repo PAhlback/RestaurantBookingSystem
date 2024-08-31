@@ -57,7 +57,7 @@ namespace RestaurantBookingSystem.Services
 
         public async Task<List<CustomerViewModel>> GetAllCustomers()
         {
-            List<Customer> customers = await _customersRepo.GetAllCustomers() ?? throw new ArgumentNullException();
+            List<Customer> customers = await _customersRepo.GetAllCustomers() ?? throw new InvalidOperationException();
 
             List<CustomerViewModel> result = customers
                 .Select(c => new CustomerViewModel()

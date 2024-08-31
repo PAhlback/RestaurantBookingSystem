@@ -19,7 +19,7 @@ namespace RestaurantBookingSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllTables()
+        public async Task<IActionResult> GetAllCustomers()
         {
             try
             {
@@ -27,7 +27,7 @@ namespace RestaurantBookingSystem.Controllers
 
                 return Ok(customers);
             }
-            catch (ArgumentNullException ex)
+            catch (InvalidOperationException ex)
             {
                 return NotFound("No customers found. " + ex.Message);
             }
