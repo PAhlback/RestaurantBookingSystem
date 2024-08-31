@@ -23,9 +23,7 @@ namespace RestaurantBookingSystem.Data
                 new Table { Id = 3, TableNumber = 3, NumberOfSeats = 4 },
                 new Table { Id = 4, TableNumber = 4, NumberOfSeats = 4 },
                 new Table { Id = 5, TableNumber = 5, NumberOfSeats = 2 },
-                new Table { Id = 6, TableNumber = 6, NumberOfSeats = 2 },
-                new Table { Id = 7, TableNumber = 7, NumberOfSeats = 2 },
-                new Table { Id = 8, TableNumber = 8, NumberOfSeats = 2 }
+                new Table { Id = 6, TableNumber = 6, NumberOfSeats = 2 }
             );
 
             modelBuilder.Entity<MenuItem>().HasData

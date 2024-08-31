@@ -22,7 +22,7 @@ namespace RestaurantBookingSystem.Data.Repos
 
         public async Task<bool> CustomerEmailExists(string email)
         {
-            return await _context.Customers.AnyAsync(c => c.Email == email);
+            return await _context.Customers.AnyAsync(c => c.NormalizedEmail == email);
         }
 
         public async Task DeleteCustomer(Customer customer)
@@ -38,7 +38,7 @@ namespace RestaurantBookingSystem.Data.Repos
 
         public Task<Customer> GetCustomerByEmail(string email)
         {
-            return _context.Customers.SingleOrDefaultAsync(c => c.Email == email);
+            return _context.Customers.SingleOrDefaultAsync(c => c.NormalizedEmail == email);
         }
 
         public async Task<Customer> GetCustomerById(int id)

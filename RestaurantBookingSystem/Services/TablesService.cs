@@ -110,20 +110,13 @@ namespace RestaurantBookingSystem.Services
 
         public async Task<Table> ReserveTable(int numberOfGuests, DateTime dateAndTime)
         {
-            List<Table> allTables = await _tableRepo.GetAllTables();
-
             // Contains a check to see if the reservation is booked at the requested time + 2h.
-            List<Table> availableTables = allTables
-                .Where(t => t.NumberOfSeats >= numberOfGuests 
-                    && (t.Reservations == null || !t.Reservations.Any(r => r.DateAndTime == dateAndTime && (double)r.DateAndTime.Hour <= (double)dateAndTime.Hour + 1.99)))
-                .OrderBy(t => t.NumberOfSeats)
-                .ToList();
+            List<Table> availableTables = await _tableRepo.GetTablesByAvailabilityForReservation(dateAndTime, dateAndTime.AddHours(2), numberOfGuests);
 
             if (availableTables.Count <= 0) throw new Exception("No tables available for reservation");
 
-            return availableTables.First();
-
             // Returns the first table in the list, since that table should be closest in available seats to that of the number of guests.
+            return availableTables.First();
         }
 
         public async Task UpdateTable(int id, TableDTO dto)
@@ -132,8 +125,8 @@ namespace RestaurantBookingSystem.Services
 
             Table table = await _tableRepo.GetTableById(id) ?? throw new KeyNotFoundException(nameof(dto));
 
-            if (table.TableNumber != dto.TableNumber) table.TableNumber = dto.TableNumber;
-            if (table.NumberOfSeats != dto.NumberOfSeats) table.NumberOfSeats += dto.NumberOfSeats;
+            if (table.TableNumber != dto.TableNumber && dto.TableNumber > 0) table.TableNumber = dto.TableNumber;
+            if (table.NumberOfSeats != dto.NumberOfSeats && dto.NumberOfSeats >= 0) table.NumberOfSeats += dto.NumberOfSeats;
 
             await _tableRepo.UpdateTable(table);
         }

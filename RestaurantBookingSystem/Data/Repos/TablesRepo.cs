@@ -37,6 +37,17 @@ namespace RestaurantBookingSystem.Data.Repos
             return await _context.Tables.Include(t => t.Reservations).ThenInclude(r => r.Customer).SingleOrDefaultAsync(t => t.Id == id);
         }
 
+        public async Task<List<Table>> GetTablesByAvailabilityForReservation(DateTime dateAndTime, DateTime endDateAndTime, int numberOfGuests)
+        {
+            return await _context.Tables
+                .Include(t => t.Reservations)
+                .Where(t => t.NumberOfSeats >= numberOfGuests
+                    && (t.Reservations == null || !t.Reservations.Any(r =>
+                    r.DateAndTime < endDateAndTime && r.DateAndTime.AddHours(2) > dateAndTime)))
+                .OrderBy(t => t.NumberOfSeats)
+                .ToListAsync();
+        }
+
         public async Task<List<Table>> GetTablesByDateTime(DateTime dateAndTime)
         {
             DateTime endDateTime = dateAndTime.AddHours(2);

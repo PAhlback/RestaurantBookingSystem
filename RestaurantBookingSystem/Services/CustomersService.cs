@@ -20,7 +20,7 @@ namespace RestaurantBookingSystem.Services
         {
             ArgumentNullException.ThrowIfNull(nameof(dto));
 
-            if (await _customersRepo.CustomerEmailExists(dto.Email))
+            if (await _customersRepo.CustomerEmailExists(dto.Email.ToLower()))
             {
                 // Add functionality for returning existing customer instead of throwing error?
                 throw new Exception($"Customer with email {dto.Email} already exists");
@@ -36,16 +36,17 @@ namespace RestaurantBookingSystem.Services
             {
                 Name = dto.Name,
                 Email = dto.Email,
+                NormalizedEmail = dto.Email.ToLower(),
                 Phone = dto.Phone
             };
 
             await _customersRepo.CreateCustomer(newCustomer);
         }
 
-        public async Task<bool> CustomerEmailExists(string email)
-        {
-            return await _customersRepo.CustomerEmailExists(email);
-        }
+        //public async Task<bool> CustomerEmailExists(string email)
+        //{
+        //    return await _customersRepo.CustomerEmailExists(email.ToLower());
+        //}
 
         public async Task DeleteCustomer(int id)
         {
@@ -59,12 +60,12 @@ namespace RestaurantBookingSystem.Services
             List<Customer> customers = await _customersRepo.GetAllCustomers() ?? throw new ArgumentNullException();
 
             List<CustomerViewModel> result = customers
-                .Select(t => new CustomerViewModel()
+                .Select(c => new CustomerViewModel()
                 {
-                    Id = t.Id,
-                    Name = t.Name,
-                    Email = t.Email,
-                    Phone = t.Phone
+                    Id = c.Id,
+                    Name = c.Name,
+                    Email = c.NormalizedEmail,
+                    Phone = c.Phone
                 })
                 .ToList();
 
@@ -73,7 +74,7 @@ namespace RestaurantBookingSystem.Services
 
         public async Task<Customer> GetCustomerByEmail(string email)
         {
-            Customer customer = await _customersRepo.GetCustomerByEmail(email) ?? throw new KeyNotFoundException(email);
+            Customer customer = await _customersRepo.GetCustomerByEmail(email.ToLower()) ?? throw new KeyNotFoundException(email.ToLower());
 
             return customer;
         }
@@ -100,7 +101,7 @@ namespace RestaurantBookingSystem.Services
             {
                 Id = customer.Id,
                 Name = customer.Name,
-                Email = customer.Email,
+                Email = customer.NormalizedEmail,
                 Phone = customer.Phone,
                 Reservations = reservations
             };
@@ -115,8 +116,13 @@ namespace RestaurantBookingSystem.Services
             Customer customer = await _customersRepo.GetCustomerById(id) ?? throw new KeyNotFoundException(nameof(dto));
 
             if (customer.Name != dto.Name) customer.Name = dto.Name;
-            if (customer.Email != dto.Email) customer.Email = dto.Email;
             if (customer.Phone != dto.Phone) customer.Phone = dto.Phone;
+            if (customer.Email != dto.Email)
+            {
+                customer.Email = dto.Email;
+                customer.NormalizedEmail = dto.Email.ToLower();
+            };
+
 
             await _customersRepo.UpdateCustomer(customer);
         }

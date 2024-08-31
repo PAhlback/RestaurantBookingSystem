@@ -57,7 +57,7 @@ namespace RestaurantBookingSystem.Controllers
         }
 
         [HttpPost()]
-        public async Task<IActionResult> CreateCustomer([FromBody]CustomerDTO dto)
+        public async Task<IActionResult> CreateCustomer([FromBody] CustomerDTO dto)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace RestaurantBookingSystem.Controllers
         }
 
         [HttpPut("{id}/update")]
-        public async Task<IActionResult> UpdateTable(int id, [FromBody]CustomerDTO dto)
+        public async Task<IActionResult> UpdateCustomer(int id, [FromBody] CustomerDTO dto)
         {
             try
             {

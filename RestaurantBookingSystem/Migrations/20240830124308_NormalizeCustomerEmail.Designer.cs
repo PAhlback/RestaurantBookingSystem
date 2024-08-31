@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantBookingSystem.Data;
 
@@ -11,9 +12,11 @@ using RestaurantBookingSystem.Data;
 namespace RestaurantBookingSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240830124308_NormalizeCustomerEmail")]
+    partial class NormalizeCustomerEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,20 +51,6 @@ namespace RestaurantBookingSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "pelle@larsson.com",
-                            Name = "Pelle Larsson"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "veragd@gmail.com",
-                            Name = "Vera Gunnarsdottir"
-                        });
                 });
 
             modelBuilder.Entity("RestaurantBookingSystem.Models.MenuItem", b =>
@@ -91,48 +80,6 @@ namespace RestaurantBookingSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MenuItems");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Spaghetti with pancetta, egg, Parmesan, Pecorino, and black pepper.",
-                            IsAvailable = true,
-                            Name = "Pasta Carbonara",
-                            Price = 195
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Tomato sauce, fresh mozzarella, basil, and extra virgin olive oil.",
-                            IsAvailable = true,
-                            Name = "Margherita",
-                            Price = 175
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "Fresh tomatoes, mozzarella, basil, and extra virgin olive oil.",
-                            IsAvailable = true,
-                            Name = "Caprese Salad",
-                            Price = 145
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "Creamy Arborio rice cooked with saffron, Parmesan, and butter.",
-                            IsAvailable = true,
-                            Name = "Risotto alla Milanese",
-                            Price = 215
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Toasted bread topped with fresh tomatoes, garlic, basil, and olive oil.",
-                            IsAvailable = true,
-                            Name = "Bruschetta al Pomodoro",
-                            Price = 115
-                        });
                 });
 
             modelBuilder.Entity("RestaurantBookingSystem.Models.Reservation", b =>
@@ -181,44 +128,6 @@ namespace RestaurantBookingSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tables");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            NumberOfSeats = 6,
-                            TableNumber = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            NumberOfSeats = 6,
-                            TableNumber = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            NumberOfSeats = 4,
-                            TableNumber = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            NumberOfSeats = 4,
-                            TableNumber = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            NumberOfSeats = 2,
-                            TableNumber = 5
-                        },
-                        new
-                        {
-                            Id = 6,
-                            NumberOfSeats = 2,
-                            TableNumber = 6
-                        });
                 });
 
             modelBuilder.Entity("RestaurantBookingSystem.Models.Reservation", b =>

@@ -7,7 +7,7 @@ namespace RestaurantBookingSystem.Services.IServices
     public interface ICustomersService
     {
         Task CreateCustomer(CustomerDTO dto);
-        Task<bool> CustomerEmailExists(string email);
+        //Task<bool> CustomerEmailExists(string email);
         Task DeleteCustomer(int id);
         Task<List<CustomerViewModel>> GetAllCustomers();
         Task<CustomerWithReservationsViewModel> GetCustomerById(int id);

@@ -11,27 +11,30 @@ namespace RestaurantBookingSystem.Services
     {
         readonly IReservationsRepo _reservationsRepo;
         readonly ICustomersService _customersService;
+        readonly ICustomersRepo _customersRepo;
         readonly ITablesService _tablesService;
         readonly ITablesRepo _tablesRepo;
 
         public ReservationsService(IReservationsRepo repo, 
             ICustomersService customersService, 
             ITablesService tablesService,
-            ITablesRepo tablesRepo)
+            ITablesRepo tablesRepo,
+            ICustomersRepo customersRepo)
         {
             _reservationsRepo = repo;
             _customersService = customersService;
             _tablesService = tablesService;
             _tablesRepo = tablesRepo;
+            _customersRepo = customersRepo;
         }
 
         public async Task CreateReservation(ReservationDTO dto)
         {
             ArgumentNullException.ThrowIfNull(dto);
-            if (dto.NumberOfGuests > 8) throw new ArgumentException("Please contact the restaurant via phone when total number of guests exceed 8");
+            if (dto.NumberOfGuests > 6) throw new ArgumentException("Please contact the restaurant directly to make a reservation for more than 6 people.");
 
             // CUSTOMER
-            if (!await _customersService.CustomerEmailExists(dto.CustomerEmail))
+            if (!await _customersRepo.CustomerEmailExists(dto.CustomerEmail.ToLower()))
             {
                 CustomerDTO newCustomer = new CustomerDTO()
                 {
@@ -47,8 +50,6 @@ namespace RestaurantBookingSystem.Services
             // ------- END CUSTOMER -------
 
             // TABLE
-            // Have to ensure there is a table with equal to or more number of seats than requested in the booking.
-            // To do this, check if there are tables with enough seats that do not already have reservations on the requested time + 2h.
             Table table = await _tablesService.ReserveTable(dto.NumberOfGuests, dto.DateAndTime);
             // ------- END TABLE -------
 
@@ -137,6 +138,8 @@ namespace RestaurantBookingSystem.Services
         public async Task UpdateReservation(int id, ReservationUpdateDTO dto)
         {
             ArgumentNullException.ThrowIfNull(nameof(dto));
+
+            if (dto.DateAndTime < DateTime.Now) throw new ArgumentException("Can not make a reservation in the past.");
 
             Reservation reservation = await _reservationsRepo.GetById(id) ?? throw new KeyNotFoundException(nameof(dto));
 
