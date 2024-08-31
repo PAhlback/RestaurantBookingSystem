@@ -7,7 +7,7 @@ The program handles the tables, customers, menu, and reservations for the restau
 ## Endpoint documentation
 All categories (controllers) include, but are not limited to, the following endpoints:
 - Get All
-- Get One By Id. Id sent through route parameter.
+- Get One By Id (Id is sent through route parameter)
 - Post
 - Put
 - Delete
@@ -84,7 +84,7 @@ CustomerDTO
 - 400 Bad Request
 	- For catching anything unexpected.
 
-#### DELTE: /api/Customers/{id}/delete
+#### DELETE: /api/Customers/{id}/delete
 Takes an id from the route parameter.
 ##### Responses:
 - 204 No Content
@@ -173,7 +173,7 @@ MenuItemDTO
 - 400 Bad Request
 	- For catching anything unexpected.
 
-#### DELTE: /api/MenuItems/{id}/delete
+#### DELETE: /api/MenuItems/{id}/delete
 Takes an id from the route parameter.
 ##### Responses:
 - 204 No Content
@@ -291,7 +291,7 @@ ReservationDTO
 - 400 Bad Request
 	- For catching anything unexpected.
 
-#### DELTE: /api/Reservations/{id}/delete
+#### DELETE: /api/Reservations/{id}/delete
 Takes an id from the route parameter.
 ##### Responses:
 - 204 No Content
@@ -381,11 +381,33 @@ TableDTO
 - 400 Bad Request
 	- For catching anything unexpected.
 
-#### DELTE: /api/Tables/{id}/delete
+#### DELETE: /api/Tables/{id}/delete
 Takes an id from the route parameter.
 ##### Responses:
 - 204 No Content
 - 404 Not Found
 	- From KeyNotFoundException indicating {id} was not found in database.
+- 400 Bad Request
+	- For catching anything unexpected.
+
+#### GET: /api/Tables/check-for-available-tables/{dateAndTime}
+Gets all the tables that are available in a 2 hour window from a specified date and time. Date and time are sent in 
+via route parameter.
+##### Responses:
+- 200 Ok
+```json
+[
+  {
+    "id": 1,
+    "tableNumber": 1,
+    "numberOfSeats": 6
+  },
+  {
+    "id": 2,
+    "tableNumber": 2,
+    "numberOfSeats": 6
+  },
+]
+```
 - 400 Bad Request
 	- For catching anything unexpected.
