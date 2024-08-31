@@ -13,14 +13,16 @@ All categories (controllers) include, but are not limited to, the following endp
 ### Customers
 #### GET: /api/Customer
 - Response:
-`[
+```json
+[
   {
    "id": 1,
    "name": "Pelle Larsson",
    "email": "pelle@larsson.com",
    "phone": null
   }
- ]`
+ ]
+```
 
 
 #### GET: /api/Customer/{id}
