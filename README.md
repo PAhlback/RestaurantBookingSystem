@@ -3,7 +3,7 @@ In this school assignment the task was to create a RESTful API with CRUD operati
 The program handles the tables, customers, menu, and reservations for the restaurant.
 
 ## ER Diagram
-[ER Diagram](https://github.com/PAhlback/RestaurantBookingSystem/blob/master/RestaurantBookingSystemERD.png)
+![ER Diagram](https://github.com/PAhlback/RestaurantBookingSystem/blob/master/RestaurantBookingSystemERD.png)
 
 ---
 
