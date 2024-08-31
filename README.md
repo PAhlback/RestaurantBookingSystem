@@ -2,6 +2,8 @@
 I den här uppgiften ska du utveckla ett backend-system för att hantera bokningar, kundinformation och menyer för en restaurang. 
 Systemet kommer att möjliggöra hantering av bord, bokningar, kunder och menyer genom ett Web API, vilket ger restaurangen möjlighet att effektivt administrera sina resurser.
 
+---
+
 ## Endpoint documentation
 All categories (controllers) include, but are not limited to, the following endpoints:
 - Get All
@@ -9,6 +11,8 @@ All categories (controllers) include, but are not limited to, the following endp
 - Post
 - Put
 - Delete
+
+---
 
 ### Customers
 #### GET: /api/Customers
@@ -88,6 +92,8 @@ Takes an id from the route parameter.
 	- From KeyNotFoundException indicating {id} was not found in database.
 - 400 Bad Request
 	- For catching anything unexpected.
+
+---
 
 ### MenuItems
 #### GET: /api/MenuItems
@@ -175,6 +181,8 @@ Takes an id from the route parameter.
 	- From KeyNotFoundException indicating {id} was not found in database.
 - 400 Bad Request
 	- For catching anything unexpected.
+
+---
 
 ### Reservations
 #### GET: /api/Reservations
@@ -291,6 +299,8 @@ Takes an id from the route parameter.
 	- From KeyNotFoundException indicating {id} was not found in database.
 - 400 Bad Request
 	- For catching anything unexpected.
+
+---
    
 ### Tables
 #### GET: /api/Tables
