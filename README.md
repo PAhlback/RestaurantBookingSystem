@@ -1,6 +1,6 @@
 # RestaurantBookingSystem
-I den här uppgiften ska du utveckla ett backend-system för att hantera bokningar, kundinformation och menyer för en restaurang. 
-Systemet kommer att möjliggöra hantering av bord, bokningar, kunder och menyer genom ett Web API, vilket ger restaurangen möjlighet att effektivt administrera sina resurser.
+In this school assignment the task was to create a RESTful API with CRUD operations for a table reservation system for a restaurant. 
+The program handles the tables, customers, menu, and reservations for the restaurant.
 
 ---
 
