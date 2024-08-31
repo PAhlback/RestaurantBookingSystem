@@ -13,6 +13,7 @@ All categories (controllers) include, but are not limited to, the following endp
 ### Customers
 #### GET: /api/Customer
 - Response:
+	- 200 Ok
 ```json
 [
   {
@@ -21,8 +22,12 @@ All categories (controllers) include, but are not limited to, the following endp
    "email": "pelle@larsson.com",
    "phone": null
   }
- ]
+]
 ```
+	- 404 Not Found
+		- If no customers exist in the database. Will be changed to return 200 Ok with a null list.
+	- 400 Bad Request
+		- For catching anything unexpected.
 
 
 #### GET: /api/Customer/{id}
