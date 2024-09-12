@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestaurantBookingSystem.Models
 {
@@ -20,5 +21,12 @@ namespace RestaurantBookingSystem.Models
 
         [Required]
         public bool IsAvailable { get; set; }
+
+        [ForeignKey("Category")]
+        public int FK_CategoryId { get; set; }
+        [Required]
+        public MenuItemCategory Category { get; set; }
+
+        public bool IsPopular { get; set; }
     }
 }

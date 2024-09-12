@@ -1,7 +1,7 @@
 ﻿using RestaurantBookingSystem.Data.Repos.IRepos;
 using RestaurantBookingSystem.Models;
 using RestaurantBookingSystem.Models.DTOs;
-using RestaurantBookingSystem.Models.ViewModels;
+using RestaurantBookingSystem.Models.ViewModels.Table;
 using RestaurantBookingSystem.Services.IServices;
 
 namespace RestaurantBookingSystem.Services

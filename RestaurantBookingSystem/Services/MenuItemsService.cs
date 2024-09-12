@@ -57,7 +57,7 @@ namespace RestaurantBookingSystem.Services
             try
             {
                 // Possibly change return value here to List<MenuItemViewModel>. 
-                return await _menuItemsRepo.GetAllMenuItems(); ;
+                return await _menuItemsRepo.GetAllMenuItems();
             }
             catch (Exception ex)
             {

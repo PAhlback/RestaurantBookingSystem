@@ -1,6 +1,6 @@
 ﻿using RestaurantBookingSystem.Models;
 using RestaurantBookingSystem.Models.DTOs;
-using RestaurantBookingSystem.Models.ViewModels;
+using RestaurantBookingSystem.Models.ViewModels.Table;
 
 namespace RestaurantBookingSystem.Services.IServices
 {

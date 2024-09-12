@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RestaurantBookingSystem.Models.ViewModels
+namespace RestaurantBookingSystem.Models.ViewModels.Customer
 {
     public class CustomerWithReservationsViewModel
     {

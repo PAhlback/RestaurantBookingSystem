@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using RestaurantBookingSystem.Models.ViewModels.Customer;
+using RestaurantBookingSystem.Models.ViewModels.Table;
 
-namespace RestaurantBookingSystem.Models.ViewModels
+namespace RestaurantBookingSystem.Models.ViewModels.Reservation
 {
     public class ReservationAllViewModel
     {

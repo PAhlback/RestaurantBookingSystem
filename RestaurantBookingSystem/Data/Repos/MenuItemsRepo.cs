@@ -44,7 +44,7 @@ namespace RestaurantBookingSystem.Data.Repos
         {
             try
             {
-                List<MenuItem> menuItems = await _context.MenuItems.ToListAsync();
+                List<MenuItem> menuItems = await _context.MenuItems.Include(mi => mi.Category).ToListAsync();
 
                 return menuItems;
             }
@@ -58,7 +58,7 @@ namespace RestaurantBookingSystem.Data.Repos
         {
             try
             {
-                MenuItem? menuItem = await _context.MenuItems.SingleOrDefaultAsync(i => i.Id == id);
+                MenuItem? menuItem = await _context.MenuItems.Include(mi => mi.Category).SingleOrDefaultAsync(i => i.Id == id);
 
                 return menuItem;
             }

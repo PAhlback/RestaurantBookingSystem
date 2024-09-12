@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantBookingSystem.Models.DTOs;
-using RestaurantBookingSystem.Models.ViewModels;
+using RestaurantBookingSystem.Models.ViewModels.Customer;
 using RestaurantBookingSystem.Services;
 using RestaurantBookingSystem.Services.IServices;
 
