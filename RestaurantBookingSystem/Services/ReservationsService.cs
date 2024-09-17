@@ -34,6 +34,7 @@ namespace RestaurantBookingSystem.Services
         {
             ArgumentNullException.ThrowIfNull(dto);
             if (dto.NumberOfGuests > 6) throw new InvalidOperationException("Please contact the restaurant directly to make a reservation for more than 6 people.");
+            if (dto.DateAndTime < DateTime.Now) throw new InvalidOperationException("Invalid date");
 
             // CUSTOMER
             if (!await _customersRepo.CustomerEmailExists(dto.CustomerEmail.ToLower()))

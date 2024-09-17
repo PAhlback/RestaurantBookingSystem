@@ -30,8 +30,8 @@ namespace RestaurantBookingSystem.Data
 
             modelBuilder.Entity<Customer>().HasData
             (
-                new Customer { Id = 1, Name = "Pelle Larsson", Email = "pelle@larsson.com", Phone = null },
-                new Customer { Id = 2, Name = "Vera Gunnarsdottir", Email = "veragd@gmail.com", Phone = null }
+                new Customer { Id = 1, Name = "Pelle Larsson", Email = "pelle@larsson.com", NormalizedEmail = "pelle@larsson.com", Phone = null },
+                new Customer { Id = 2, Name = "Vera Gunnarsdottir", Email = "veragd@gmail.com", NormalizedEmail = "veragd@gmail.com", Phone = null }
             );
 
             modelBuilder.Entity<MenuItemCategory>().HasData

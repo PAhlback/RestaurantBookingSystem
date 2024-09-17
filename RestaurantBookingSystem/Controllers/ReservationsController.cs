@@ -49,7 +49,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
-        [HttpPost("reserve")]
+        [HttpPost()]
         public async Task<IActionResult> CreateReservation([FromBody] ReservationDTO dto)
         {
             try
@@ -68,7 +68,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
-        [HttpPut("{id}/update")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReservation(int id, [FromBody] ReservationUpdateDTO dto)
         {
             try
@@ -91,7 +91,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
-        [HttpDelete("{id}/delete")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReservation(int id)
         {
             try

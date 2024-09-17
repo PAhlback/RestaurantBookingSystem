@@ -31,6 +31,7 @@ namespace RestaurantBookingSystem.Data.Repos
             return await _context.Reservations
                 .Include(r => r.Table)
                 .Include(r => r.Customer)
+                .OrderBy(r => r.DateAndTime)
                 .ToListAsync();
         }
 
