@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RestaurantBookingSystem.Models;
 using RestaurantBookingSystem.Models.DTOs;
+using RestaurantBookingSystem.Models.ViewModels.MenuItem;
 using RestaurantBookingSystem.Services.IServices;
 
 namespace RestaurantBookingSystem.Controllers
@@ -31,7 +32,7 @@ namespace RestaurantBookingSystem.Controllers
         {
             try
             {
-                List<MenuItem> menuItems = await _menuItemsService.GetAll();
+                ICollection<MenuItemViewModel> menuItems = await _menuItemsService.GetAll();
 
                 return Ok(menuItems);
             }
@@ -60,7 +61,22 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
-        [HttpPost("AddItem")]
+        [HttpGet("popular")]
+        public async Task<IActionResult> GetPopularMenuItems()
+        {
+            try
+            {
+                ICollection<MenuItemViewModel> popularItems = await _menuItemsService.GetPopular();
+
+                return Ok(popularItems);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost()]
         public async Task<IActionResult> AddMenuItem([FromBody] MenuItemDTO dto)
         {
             try
@@ -75,8 +91,8 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
-        [HttpPut("{id}/update")]
-        public async Task<IActionResult> UpdateMenuItem(int id, [FromBody]MenuItemDTO dto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMenuItem(int id, [FromBody] MenuItemDTO dto)
         {
             try
             {
@@ -99,7 +115,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
-        [HttpDelete("{id}/delete")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMenuItem(int id)
         {
             try

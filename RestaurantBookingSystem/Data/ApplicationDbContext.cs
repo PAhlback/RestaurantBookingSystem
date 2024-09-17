@@ -45,11 +45,12 @@ namespace RestaurantBookingSystem.Data
 
             modelBuilder.Entity<MenuItem>().HasData
             (
-                new MenuItem { Id = 1, Name = "Pasta Carbonara", Description = "Spaghetti with pancetta, egg, Parmesan, Pecorino, and black pepper.", Price = 195, IsAvailable = true, FK_CategoryId = 2 },
-                new MenuItem { Id = 2, Name = "Margherita", Description = "Tomato sauce, fresh mozzarella, basil, and extra virgin olive oil.", Price = 175, IsAvailable = true, FK_CategoryId = 1 },
+                new MenuItem { Id = 1, Name = "Pasta Carbonara", Description = "Spaghetti with pancetta, egg, Parmesan, Pecorino, and black pepper.", Price = 195, IsAvailable = true, FK_CategoryId = 2, IsPopular = true },
+                new MenuItem { Id = 2, Name = "Margherita", Description = "Tomato sauce, fresh mozzarella, basil, and extra virgin olive oil.", Price = 175, IsAvailable = true, FK_CategoryId = 1, IsPopular = true },
                 new MenuItem { Id = 3, Name = "Caprese Salad", Description = "Fresh tomatoes, mozzarella, basil, and extra virgin olive oil.", Price = 145, IsAvailable = true, FK_CategoryId = 3 },
                 new MenuItem { Id = 4, Name = "Risotto alla Milanese", Description = "Creamy Arborio rice cooked with saffron, Parmesan, and butter.", Price = 215, IsAvailable = true, FK_CategoryId = 4 },
-                new MenuItem { Id = 5, Name = "Bruschetta al Pomodoro", Description = "Toasted bread topped with fresh tomatoes, garlic, basil, and olive oil.", Price = 115, IsAvailable = true, FK_CategoryId = 5 }
+                new MenuItem { Id = 5, Name = "Bruschetta al Pomodoro", Description = "Toasted bread topped with fresh tomatoes, garlic, basil, and olive oil.", Price = 115, IsAvailable = true, FK_CategoryId = 5 },
+                new MenuItem { Id = 6, Name = "Hawaii", Description = "Tomato sauce, mozzarella, ham and pineapple.", Price = 190, IsAvailable = true, FK_CategoryId = 1, IsPopular = true }
             );
         }
     }

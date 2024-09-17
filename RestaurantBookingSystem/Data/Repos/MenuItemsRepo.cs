@@ -16,69 +16,42 @@ namespace RestaurantBookingSystem.Data.Repos
 
         public async Task AddMenuItem(MenuItem newMenuItem)
         {
-            try
-            {
-                await _context.MenuItems.AddAsync(newMenuItem);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            await _context.MenuItems.AddAsync(newMenuItem);
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteMenuItem(MenuItem menuItem)
         {
-            try
-            {
-                _context.Remove(menuItem);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex) 
-            {
-                throw new Exception(ex.Message);
-            }
+            _context.Remove(menuItem);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<MenuItem>> GetAllMenuItems()
         {
-            try
-            {
-                List<MenuItem> menuItems = await _context.MenuItems.Include(mi => mi.Category).ToListAsync();
+            List<MenuItem> menuItems = await _context.MenuItems.Include(mi => mi.Category).ToListAsync();
 
-                return menuItems;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return menuItems;
         }
 
         public async Task<MenuItem> GetById(int id)
         {
-            try
-            {
-                MenuItem? menuItem = await _context.MenuItems.Include(mi => mi.Category).SingleOrDefaultAsync(i => i.Id == id);
+            MenuItem? menuItem = await _context.MenuItems.Include(mi => mi.Category).SingleOrDefaultAsync(i => i.Id == id);
 
-                return menuItem;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return menuItem;
+        }
+
+        public async Task<ICollection<MenuItem>> GetPopularItems()
+        {
+            return await _context.MenuItems
+                .Include(mi => mi.Category)
+                .Where(mi => mi.IsPopular)
+                .ToListAsync();
         }
 
         public async Task UpdateMenuItem(MenuItem menuItem)
         {
-            try
-            {
-                _context.MenuItems.Update(menuItem);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            _context.MenuItems.Update(menuItem);
+            await _context.SaveChangesAsync();
         }
     }
 }

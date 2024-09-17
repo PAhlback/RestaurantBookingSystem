@@ -1,5 +1,6 @@
 ﻿using RestaurantBookingSystem.Models;
 using RestaurantBookingSystem.Models.DTOs;
+using RestaurantBookingSystem.Models.ViewModels.MenuItem;
 
 namespace RestaurantBookingSystem.Services.IServices
 {
@@ -7,8 +8,9 @@ namespace RestaurantBookingSystem.Services.IServices
     {
         Task AddMenuItem(MenuItemDTO dto);
         Task DeleteItem(int id);
-        Task<List<MenuItem>> GetAll();
+        Task<ICollection<MenuItemViewModel>> GetAll();
         Task<MenuItem> GetById(int id);
+        Task<ICollection<MenuItemViewModel>> GetPopular();
         Task UpdateMenuItem(int id, MenuItemDTO menuItemDTO);
     }
 }

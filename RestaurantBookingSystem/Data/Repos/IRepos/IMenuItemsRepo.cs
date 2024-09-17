@@ -9,6 +9,7 @@ namespace RestaurantBookingSystem.Data.Repos.IRepos
         Task DeleteMenuItem(MenuItem menuItem);
         Task<List<MenuItem>> GetAllMenuItems();
         Task<MenuItem> GetById(int id);
+        Task<ICollection<MenuItem>> GetPopularItems();
         Task UpdateMenuItem(MenuItem menuItem);
     }
 }

@@ -10,5 +10,7 @@ namespace RestaurantBookingSystem.Models
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
+
+        public virtual ICollection<MenuItem> MenuItems { get; set; }
     }
 }

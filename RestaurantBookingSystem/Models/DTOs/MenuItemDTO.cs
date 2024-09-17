@@ -17,5 +17,8 @@ namespace RestaurantBookingSystem.Models.DTOs
 
         [Required]
         public bool IsAvailable { get; set; }
+
+        [Required]
+        public int CategoryFK {  get; set; }
     }
 }
