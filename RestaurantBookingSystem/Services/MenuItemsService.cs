@@ -63,10 +63,12 @@ namespace RestaurantBookingSystem.Services
                 })
                 .ToList();
 
+            menuItems.OrderBy(mi => mi.Category.Name).ToList();
+
             return menuItems;
         }
 
-        public async Task<MenuItem> GetById(int id)
+        public async Task<MenuItemViewModel> GetById(int id)
         {
             MenuItem? menuItem = await _menuItemsRepo.GetById(id);
 
@@ -75,7 +77,22 @@ namespace RestaurantBookingSystem.Services
                 throw new KeyNotFoundException($"No menu item with id {id} found.");
             }
 
-            return menuItem;
+            MenuItemViewModel result = new MenuItemViewModel
+            {
+                Id = menuItem.Id,
+                Name = menuItem.Name,
+                Description = menuItem.Description,
+                Price = menuItem.Price,
+                IsAvailable = menuItem.IsAvailable,
+                IsPopular = menuItem.IsPopular,
+                Category = new MenuItemCategoryNoItemsViewModel
+                {
+                    Id = menuItem.Category.Id,
+                    Name = menuItem.Category.Name
+                }
+            };
+
+            return result;
         }
 
         public async Task<ICollection<MenuItemViewModel>> GetPopular()

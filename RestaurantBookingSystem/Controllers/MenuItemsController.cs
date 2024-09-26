@@ -47,7 +47,7 @@ namespace RestaurantBookingSystem.Controllers
         {
             try
             {
-                MenuItem? menuItem = await _menuItemsService.GetById(id);
+                MenuItemViewModel? menuItem = await _menuItemsService.GetById(id);
 
                 return Ok(menuItem);
             }

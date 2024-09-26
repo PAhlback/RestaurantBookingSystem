@@ -1,8 +1,10 @@
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RestaurantBookingSystem.Data;
 using RestaurantBookingSystem.Data.Repos;
 using RestaurantBookingSystem.Data.Repos.IRepos;
+using RestaurantBookingSystem.Models;
 using RestaurantBookingSystem.Services;
 using RestaurantBookingSystem.Services.IServices;
 
@@ -30,6 +32,26 @@ namespace RestaurantBookingSystem
             builder.Services.AddScoped<ITablesService, TablesService>();
             builder.Services.AddScoped<ICustomersService, CustomersService>();
             builder.Services.AddScoped<IReservationsService, ReservationsService>();
+            builder.Services.AddScoped<IAdminActionsRepo, AdminActionsRepo>();
+            builder.Services.AddScoped<IUserServices, UserServices>();
+
+            // IDENTITY
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 1;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false;
+
+                options.User.RequireUniqueEmail = true;
+
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+                options.SignIn.RequireConfirmedEmail = false;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders()
+                .AddRoles<IdentityRole>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

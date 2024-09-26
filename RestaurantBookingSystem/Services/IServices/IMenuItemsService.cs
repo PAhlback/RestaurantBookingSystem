@@ -9,7 +9,7 @@ namespace RestaurantBookingSystem.Services.IServices
         Task AddMenuItem(MenuItemDTO dto);
         Task DeleteItem(int id);
         Task<ICollection<MenuItemViewModel>> GetAll();
-        Task<MenuItem> GetById(int id);
+        Task<MenuItemViewModel> GetById(int id);
         Task<ICollection<MenuItemViewModel>> GetPopular();
         Task UpdateMenuItem(int id, MenuItemDTO menuItemDTO);
     }

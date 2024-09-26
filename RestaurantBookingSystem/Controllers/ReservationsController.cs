@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantBookingSystem.Models;
 using RestaurantBookingSystem.Models.DTOs;
@@ -19,6 +20,7 @@ namespace RestaurantBookingSystem.Controllers
             _reservationsService = service;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllReservations()
         {
