@@ -51,7 +51,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
-        [HttpPost()]
+        [HttpPost]
         public async Task<IActionResult> CreateReservation([FromBody] ReservationDTO dto)
         {
             try
