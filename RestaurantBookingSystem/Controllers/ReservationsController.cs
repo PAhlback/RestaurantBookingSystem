@@ -36,6 +36,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -70,6 +71,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReservation(int id, [FromBody] ReservationUpdateDTO dto)
         {
@@ -93,6 +95,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReservation(int id)
         {

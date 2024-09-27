@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantBookingSystem.Models.DTOs;
 using RestaurantBookingSystem.Models.ViewModels.Table;
@@ -6,6 +7,7 @@ using RestaurantBookingSystem.Services.IServices;
 
 namespace RestaurantBookingSystem.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TablesController : ControllerBase
