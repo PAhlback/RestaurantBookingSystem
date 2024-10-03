@@ -4,7 +4,7 @@ namespace RestaurantBookingSystem.Services.IServices
 {
     public interface IUserServices
     {
-        Task LoginUser(LoginDTO loginDTO);
+        Task<UserLoginInfoViewModel> LoginUser(LoginDTO loginDTO);
         Task LogoutUser();
         Task RegisterUser(UserDTO dto);
     }

@@ -40,6 +40,13 @@ namespace RestaurantBookingSystem.Data.Repos
             return menuItem;
         }
 
+        public async Task<MenuItemCategory> GetCategoryById(int id)
+        {
+            MenuItemCategory? category = await _context.MenuItemCategories.SingleOrDefaultAsync(c => c.Id == id);
+
+            return category;
+        }
+
         public async Task<ICollection<MenuItem>> GetPopularItems()
         {
             return await _context.MenuItems

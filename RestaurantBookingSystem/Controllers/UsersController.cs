@@ -30,9 +30,9 @@ namespace RestaurantBookingSystem.Controllers
         {
             try
             {
-                await _userService.LoginUser(loginDTO);
+                UserLoginInfoViewModel? user = await _userService.LoginUser(loginDTO);
 
-                return Ok("Login successful");
+                return Ok(user);
             }
             catch (Exception ex)
             {

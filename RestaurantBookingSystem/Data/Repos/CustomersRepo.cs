@@ -7,7 +7,7 @@ namespace RestaurantBookingSystem.Data.Repos
 {
     public class CustomersRepo : ICustomersRepo
     {
-        readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public CustomersRepo(ApplicationDbContext context)
         {
@@ -36,9 +36,9 @@ namespace RestaurantBookingSystem.Data.Repos
             return await _context.Customers.ToListAsync();
         }
 
-        public Task<Customer> GetCustomerByEmail(string email)
+        public async Task<Customer> GetCustomerByEmail(string email)
         {
-            return _context.Customers.SingleOrDefaultAsync(c => c.NormalizedEmail == email);
+            return await _context.Customers.SingleOrDefaultAsync(c => c.NormalizedEmail == email);
         }
 
         public async Task<Customer> GetCustomerById(int id)

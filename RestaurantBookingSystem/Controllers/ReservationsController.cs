@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RestaurantBookingSystem.Models;
+using RestaurantBookingSystem.Helpers;
 using RestaurantBookingSystem.Models.DTOs;
 using RestaurantBookingSystem.Models.ViewModels.Reservation;
-using RestaurantBookingSystem.Services;
 using RestaurantBookingSystem.Services.IServices;
 
 namespace RestaurantBookingSystem.Controllers
@@ -57,6 +55,8 @@ namespace RestaurantBookingSystem.Controllers
         {
             try
             {
+                dto.DateAndTime = DateAndTimeHelper.ToSwedishTime(dto.DateAndTime);
+
                 await _reservationsService.CreateReservation(dto);
 
                 return Created();

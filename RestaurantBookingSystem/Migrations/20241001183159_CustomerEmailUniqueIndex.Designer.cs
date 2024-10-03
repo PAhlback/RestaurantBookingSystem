@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantBookingSystem.Data;
 
@@ -11,9 +12,11 @@ using RestaurantBookingSystem.Data;
 namespace RestaurantBookingSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241001183159_CustomerEmailUniqueIndex")]
+    partial class CustomerEmailUniqueIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -445,9 +448,6 @@ namespace RestaurantBookingSystem.Migrations
                     b.HasIndex("FK_CustomerId");
 
                     b.HasIndex("FK_TableId");
-
-                    b.HasIndex("DateAndTime", "FK_TableId")
-                        .IsUnique();
 
                     b.ToTable("Reservations");
                 });

@@ -130,8 +130,20 @@ namespace RestaurantBookingSystem.Services
             if (menuItemDTO.Description != existingMenuItem.Description) existingMenuItem.Description = menuItemDTO.Description;
             if (menuItemDTO.Price != existingMenuItem.Price) existingMenuItem.Price = menuItemDTO.Price;
             if (menuItemDTO.IsAvailable != existingMenuItem.IsAvailable) existingMenuItem.IsAvailable = menuItemDTO.IsAvailable;
+            if (menuItemDTO.CategoryFK != existingMenuItem.FK_CategoryId)
+            {
+                MenuItemCategory category = await GetCategoryById(menuItemDTO.CategoryFK);
+
+                existingMenuItem.FK_CategoryId = category.Id;
+                existingMenuItem.Category = category;
+            }
 
             await _menuItemsRepo.UpdateMenuItem(existingMenuItem);
+        }
+
+        private async Task<MenuItemCategory> GetCategoryById(int id)
+        {
+            return await _menuItemsRepo.GetCategoryById(id);
         }
     }
 }

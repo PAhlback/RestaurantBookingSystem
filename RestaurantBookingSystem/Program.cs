@@ -75,7 +75,8 @@ namespace RestaurantBookingSystem
             {
                 options.AddPolicy("AllowAll", builder =>
                 {
-                    builder.WithOrigins("https://localhost:7180")
+                    builder.WithOrigins("https://localhost:7180",
+                        "http://localhost:5173")
                            .AllowAnyMethod()
                            .AllowAnyHeader()
                            .AllowCredentials();

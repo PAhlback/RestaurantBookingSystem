@@ -10,7 +10,7 @@ namespace RestaurantBookingSystem.Services
         private readonly UserManager<User> _userManager = userManager;
         private readonly SignInManager<User> _signInManager = signInManager;
 
-        public async Task LoginUser(LoginDTO loginDTO)
+        public async Task<UserLoginInfoViewModel> LoginUser(LoginDTO loginDTO)
         {
             var user = await _userManager.FindByEmailAsync(loginDTO.Email);
 
@@ -24,6 +24,8 @@ namespace RestaurantBookingSystem.Services
             {
                 throw new Exception("Login failed at password");
             }
+
+            return new UserLoginInfoViewModel { Email = user.Email, FirstName = user.FirstName, LastName = user.LastName };
         }
 
         public async Task LogoutUser()

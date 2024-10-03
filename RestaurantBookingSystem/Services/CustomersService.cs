@@ -9,7 +9,7 @@ namespace RestaurantBookingSystem.Services
 {
     public class CustomersService : ICustomersService
     {
-        readonly ICustomersRepo _customersRepo;
+        private readonly ICustomersRepo _customersRepo;
 
         public CustomersService(ICustomersRepo repo)
         {

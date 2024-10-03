@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestaurantBookingSystem.Models
 {
+    [Index("DateAndTime", "FK_TableId", IsUnique = true)]
     public class Reservation
     {
         [Key]
