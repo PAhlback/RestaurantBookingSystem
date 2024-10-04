@@ -7,7 +7,6 @@ using RestaurantBookingSystem.Services.IServices;
 
 namespace RestaurantBookingSystem.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TablesController : ControllerBase
@@ -19,6 +18,7 @@ namespace RestaurantBookingSystem.Controllers
             _tablesService = tablesService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllTables()
         {
@@ -38,6 +38,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTableById([FromRoute] int id)
         {
@@ -57,6 +58,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost()]
         public async Task<IActionResult> AddTable([FromBody] TableDTO dto)
         {
@@ -72,6 +74,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{id}/update")]
         public async Task<IActionResult> UpdateTable([FromRoute] int id, [FromBody] TableDTO dto)
         {
@@ -95,6 +98,7 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}/delete")]
         public async Task<IActionResult> DeleteTable([FromRoute] int id)
         {
@@ -114,14 +118,17 @@ namespace RestaurantBookingSystem.Controllers
             }
         }
 
-        [HttpGet("check-for-available-tables/{dateAndTime}")]
-        public async Task<IActionResult> CheckAvailableTablesBasedOnDateTime([FromRoute] DateTime dateAndTime)
+        [HttpGet("check-for-available-tables/{dateAndTime}/{numberOfGuests}")]
+        public async Task<IActionResult> CheckAvailableTablesBasedOnDateTime([FromRoute] DateTime dateAndTime, [FromRoute] int numberOfGuests)
         {
             try
             {
-                List<TablesAllViewModel> availableTables = await _tablesService.GetAvailableTablesBasedOnDateTime(dateAndTime);
+                // Modify this as well
+                //List<TablesAllViewModel> availableTables = await _tablesService.GetAvailableTablesBasedOnDateTime(dateAndTime, numberOfGuests);
 
-                return Ok(availableTables);
+                var (actuallyAvailableTables, availableTimeSlots) = await _tablesService.UpdatedGetAvailableTablesBasedOnDateTime(dateAndTime, numberOfGuests);
+                return Ok(new { actuallyAvailableTables, availableTimeSlots });
+                //return Ok(availableTables);
             }
             catch (Exception ex)
             {

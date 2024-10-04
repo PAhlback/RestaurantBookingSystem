@@ -16,5 +16,7 @@ namespace RestaurantBookingSystem.Models.DTOs
         [Required]
         public string CustomerName { get; set; }
         public string? CustomerPhone { get; set; }
+
+        public bool? UtcTime { get; set; }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RestaurantBookingSystem.Data.Repos.IRepos;
 using RestaurantBookingSystem.Models;
+using System.ComponentModel;
 
 namespace RestaurantBookingSystem.Data.Repos
 {
@@ -41,6 +43,18 @@ namespace RestaurantBookingSystem.Data.Repos
                 .Include(r => r.Table)
                 .Include(r => r.Customer)
                 .SingleOrDefaultAsync(r => r.Id == id);
+        }
+
+        // Unnecessary method? Was used in the time slot generation methods in TableService.
+        public async Task<List<Reservation>> GetReservationTimeSlots(int tableId, DateTime startDateTime, DateTime endDateTime)
+        {
+            var reservations = await _context.Reservations
+                .Where(r => r.FK_TableId == tableId &&
+                            r.DateAndTime < endDateTime &&
+                            r.DateAndTime.AddHours(2) > startDateTime)
+                .ToListAsync();
+
+            return reservations;
         }
 
         public async Task UpdateReservation(Reservation reservation)

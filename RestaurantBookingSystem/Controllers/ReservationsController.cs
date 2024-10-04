@@ -55,7 +55,8 @@ namespace RestaurantBookingSystem.Controllers
         {
             try
             {
-                dto.DateAndTime = DateAndTimeHelper.ToSwedishTime(dto.DateAndTime);
+                if (dto.UtcTime != null && dto.UtcTime == true) 
+                    dto.DateAndTime = DateAndTimeHelper.ToSwedishTime(dto.DateAndTime);
 
                 await _reservationsService.CreateReservation(dto);
 

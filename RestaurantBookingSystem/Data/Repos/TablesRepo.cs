@@ -48,14 +48,12 @@ namespace RestaurantBookingSystem.Data.Repos
                 .ToListAsync();
         }
 
-        public async Task<List<Table>> GetTablesByDateTime(DateTime dateAndTime)
+        public async Task<List<Table>> GetTablesByNumberOfGuests(DateTime dateAndTime, int numberOfGuests)
         {
-            DateTime endDateTime = dateAndTime.AddHours(2);
-
             List<Table> tables = await _context.Tables
-                .Include(t => t.Reservations)
-                .Where(t => t.Reservations == null || !t.Reservations.Any(r =>
-                    r.DateAndTime < endDateTime && r.DateAndTime.AddHours(2) > dateAndTime))
+                .Include(t => t.Reservations
+                    .Where(r => DateOnly.FromDateTime(r.DateAndTime) == DateOnly.FromDateTime(dateAndTime)))
+                .Where(t => t.NumberOfSeats >= numberOfGuests)
                 .ToListAsync();
 
             return tables;
